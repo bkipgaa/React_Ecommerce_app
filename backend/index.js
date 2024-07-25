@@ -101,11 +101,22 @@ const Product = mongoose.model("Product",{
 
     //Creating API For deleting Products
 
-    app.post ('/removeproduct', async (req,res)=>{
-        
+    app.post ('/removeproduct', async(req,res)=>{
+        await Product.findOneAndDelete({id:req.body.id});
+        console.log("Removed");
+        res.json({
+            success:true,
+            name:req.body.name,
+
+        })
     })
 
-
+//Creating API for getting all products
+app.get('/allproducts' , async(req,res)=>{
+    let products = await Product.find({});
+    console.log("All products Fetched");
+    res.send(products)
+})  
 
 app.listen(port,(error)=>{
     if(!error){
